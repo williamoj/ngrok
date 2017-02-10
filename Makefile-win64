@@ -44,7 +44,6 @@ all: fmt client server
 
 clean:
 	go clean -i -r ngrok/...
-	rm -rf src/ngrok/client/assets/ src/ngrok/server/assets/
 
 contributors:
 	echo "Contributors to ngrok, both large and small:\n" > CONTRIBUTORS
