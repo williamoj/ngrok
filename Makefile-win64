@@ -16,6 +16,7 @@ client: deps
 	go install -tags '$(BUILDTAGS)' ngrok/main/ngrok
 
 assets: client-assets server-assets
+assets-no-tags: client-assets-no-tags server-assets-no-tags
 
 bin/go-bindata:
 	GOOS="" GOARCH="" go get github.com/jteeuwen/go-bindata/go-bindata
@@ -26,10 +27,22 @@ client-assets: bin/go-bindata
 		-o=src/ngrok/client/assets/assets_$(BUILDTAGS).go \
 		assets/client/...
 
+client-assets-no-tags: bin/go-bindata
+	go-bindata -nomemcopy -pkg=assets \
+		-debug=$(if $(findstring debug,$(BUILDTAGS)),true,false) \
+		-o=src/ngrok/client/assets/assets.go \
+		assets/client/...
+
 server-assets: bin/go-bindata
 	go-bindata -nomemcopy -pkg=assets -tags=$(BUILDTAGS) \
 		-debug=$(if $(findstring debug,$(BUILDTAGS)),true,false) \
 		-o=src/ngrok/server/assets/assets_$(BUILDTAGS).go \
+		assets/server/...
+
+server-assets-no-tags: bin/go-bindata
+	go-bindata -nomemcopy -pkg=assets \
+		-debug=$(if $(findstring debug,$(BUILDTAGS)),true,false) \
+		-o=src/ngrok/server/assets/assets.go \
 		assets/server/...
 
 release-client: BUILDTAGS=release
