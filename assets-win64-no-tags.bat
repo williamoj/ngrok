@@ -11,7 +11,7 @@ set PATH=%GOBIN%;%PATH%
 make clean --makefile=Makefile-win64
 rd /s /q src\ngrok\client\assets
 rd /s /q src\ngrok\server\assets
-del /f /q bin\go-bindata.exe
 make assets-no-tags --makefile=Makefile-win64
+rd /s /q bin
 
 pause
